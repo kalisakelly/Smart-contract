@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.2 <0.9.0;
 
-contract PropertRegistry {
-
-    enum Property_type { House, Car, Plot }
-    address public  owner; 
+contract PropertyRegistry {
+    
+    enum PropertyType { House, Car, Plot }
+    address public owner; 
     uint256 public Id_counter = 1;
 
     struct Property {
         uint256 propertyId;
         string name;
-        string image;
+        string[] images;
         string descriptions;
         uint256 amount;
-        Property_type propertyType;
+        PropertyType propertyType;
         address payable owner;
         string contacts;
         string email;
@@ -22,6 +22,12 @@ contract PropertRegistry {
 
     Property[] public properties;
     mapping(uint256 => uint256) public propertyIdToIndex;
+
+    // Events
+    event PropertyAdded(uint256 propertyId, address indexed owner);
+    event PropertyBought(uint256 propertyId, address indexed buyer, uint256 amount);
+    event PropertyListedForSale(uint256 propertyId, address indexed owner);
+    event Withdrawal(uint256 amount, address indexed recipient);
 
     constructor() {
         owner = msg.sender;
@@ -39,18 +45,18 @@ contract PropertRegistry {
 
     function addProperty(
         string memory _name,
-        string memory _image,
+        string[] memory _images,
         string memory _descriptions,
         uint256 _amount,
         string memory _contacts,
         string memory _email,
-        Property_type _propertyType
+        PropertyType _propertyType
     ) public {
         properties.push(
             Property({
                 propertyId: Id_counter,
                 name: _name,
-                image: _image,
+                images: _images,
                 descriptions: _descriptions,
                 amount: _amount,
                 propertyType: _propertyType,
@@ -62,6 +68,7 @@ contract PropertRegistry {
         );
 
         propertyIdToIndex[Id_counter] = properties.length - 1;
+        emit PropertyAdded(Id_counter, msg.sender);
         Id_counter++;
     }
 
@@ -104,7 +111,8 @@ contract PropertRegistry {
     function sellProperty(uint256 propertyIndex, address newOwner) public onlyContractOwner isAvailable(propertyIndex) {
         Property storage propertyToSell = properties[propertyIndex];
         propertyToSell.owner = payable(newOwner);
-        propertyToSell.available = false;
+        propertyToSell.available = true;
+        emit PropertyListedForSale(propertyToSell.propertyId, newOwner);
     }
 
     function buyProperty(uint256 propertyIndex) public payable isAvailable(propertyIndex) {
@@ -115,10 +123,14 @@ contract PropertRegistry {
         propertyToBuy.owner.transfer(msg.value);
         propertyToBuy.owner = payable(msg.sender);
         propertyToBuy.available = false;
+
+        emit PropertyBought(propertyToBuy.propertyId, msg.sender, msg.value);
     }
 
     function withdrawFunds() public onlyContractOwner {
-        require(address(this).balance > 0, "No funds to withdraw");
-        payable(owner).transfer(address(this).balance);
+        uint256 balance = address(this).balance;
+        require(balance > 0, "No funds to withdraw");
+        payable(owner).transfer(balance);
+        emit Withdrawal(balance, owner);
     }
 }

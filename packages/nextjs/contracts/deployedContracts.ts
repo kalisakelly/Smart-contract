@@ -6,13 +6,95 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    PropertRegistry: {
-      address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
+    PropertyRegistry: {
+      address: "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
       abi: [
         {
           inputs: [],
           stateMutability: "nonpayable",
           type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "propertyId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "PropertyAdded",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "propertyId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "buyer",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+          ],
+          name: "PropertyBought",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "propertyId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "PropertyListedForSale",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "recipient",
+              type: "address",
+            },
+          ],
+          name: "Withdrawal",
+          type: "event",
         },
         {
           inputs: [],
@@ -35,9 +117,9 @@ const deployedContracts = {
               type: "string",
             },
             {
-              internalType: "string",
-              name: "_image",
-              type: "string",
+              internalType: "string[]",
+              name: "_images",
+              type: "string[]",
             },
             {
               internalType: "string",
@@ -60,7 +142,7 @@ const deployedContracts = {
               type: "string",
             },
             {
-              internalType: "enum PropertRegistry.Property_type",
+              internalType: "enum PropertyRegistry.PropertyType",
               name: "_propertyType",
               type: "uint8",
             },
@@ -87,9 +169,9 @@ const deployedContracts = {
                   type: "string",
                 },
                 {
-                  internalType: "string",
-                  name: "image",
-                  type: "string",
+                  internalType: "string[]",
+                  name: "images",
+                  type: "string[]",
                 },
                 {
                   internalType: "string",
@@ -102,7 +184,7 @@ const deployedContracts = {
                   type: "uint256",
                 },
                 {
-                  internalType: "enum PropertRegistry.Property_type",
+                  internalType: "enum PropertyRegistry.PropertyType",
                   name: "propertyType",
                   type: "uint8",
                 },
@@ -127,7 +209,7 @@ const deployedContracts = {
                   type: "bool",
                 },
               ],
-              internalType: "struct PropertRegistry.Property[]",
+              internalType: "struct PropertyRegistry.Property[]",
               name: "",
               type: "tuple[]",
             },
@@ -184,9 +266,9 @@ const deployedContracts = {
                   type: "string",
                 },
                 {
-                  internalType: "string",
-                  name: "image",
-                  type: "string",
+                  internalType: "string[]",
+                  name: "images",
+                  type: "string[]",
                 },
                 {
                   internalType: "string",
@@ -199,7 +281,7 @@ const deployedContracts = {
                   type: "uint256",
                 },
                 {
-                  internalType: "enum PropertRegistry.Property_type",
+                  internalType: "enum PropertyRegistry.PropertyType",
                   name: "propertyType",
                   type: "uint8",
                 },
@@ -224,7 +306,7 @@ const deployedContracts = {
                   type: "bool",
                 },
               ],
-              internalType: "struct PropertRegistry.Property",
+              internalType: "struct PropertyRegistry.Property",
               name: "",
               type: "tuple",
             },
@@ -249,9 +331,9 @@ const deployedContracts = {
                   type: "string",
                 },
                 {
-                  internalType: "string",
-                  name: "image",
-                  type: "string",
+                  internalType: "string[]",
+                  name: "images",
+                  type: "string[]",
                 },
                 {
                   internalType: "string",
@@ -264,7 +346,7 @@ const deployedContracts = {
                   type: "uint256",
                 },
                 {
-                  internalType: "enum PropertRegistry.Property_type",
+                  internalType: "enum PropertyRegistry.PropertyType",
                   name: "propertyType",
                   type: "uint8",
                 },
@@ -289,7 +371,7 @@ const deployedContracts = {
                   type: "bool",
                 },
               ],
-              internalType: "struct PropertRegistry.Property[]",
+              internalType: "struct PropertyRegistry.Property[]",
               name: "",
               type: "tuple[]",
             },
@@ -332,11 +414,6 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "image",
-              type: "string",
-            },
-            {
-              internalType: "string",
               name: "descriptions",
               type: "string",
             },
@@ -346,7 +423,7 @@ const deployedContracts = {
               type: "uint256",
             },
             {
-              internalType: "enum PropertRegistry.Property_type",
+              internalType: "enum PropertyRegistry.PropertyType",
               name: "propertyType",
               type: "uint8",
             },
@@ -422,7 +499,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     YourContract: {
-      address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      address: "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
       abi: [
         {
           inputs: [

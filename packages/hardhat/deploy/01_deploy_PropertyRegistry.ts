@@ -22,7 +22,7 @@ const deployPropertyRegistry: DeployFunction = async function (hre: HardhatRunti
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("PropertRegistry", {
+  await deploy("PropertyRegistry", {
     from: deployer,
     // Contract constructor arguments
     // args: ["0xDDE1D88B658ee96885162a3C95Aa402001207235"],
@@ -41,4 +41,4 @@ export default deployPropertyRegistry;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
 // e.g. yarn deploy --tags YourContract
-deployPropertyRegistry.tags = ["PropertRegistry"];
+deployPropertyRegistry.tags = ["PropertyRegistry"];
