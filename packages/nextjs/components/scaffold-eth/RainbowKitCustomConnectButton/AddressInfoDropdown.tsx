@@ -16,6 +16,7 @@ import {
 import { BlockieAvatar, isENS } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { getTargetNetworks } from "~~/utils/scaffold-eth";
+import Link from "next/link";
 
 const allowedNetworks = getTargetNetworks();
 
@@ -108,6 +109,7 @@ export const AddressInfoDropdown = ({
               </a>
             </button>
           </li>
+          <Link href="/new" className="btn btn-primary btn-sm">Sell Property</Link>
           {allowedNetworks.length > 1 ? (
             <li className={selectingNetwork ? "hidden" : ""}>
               <button
