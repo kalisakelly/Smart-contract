@@ -1,3 +1,4 @@
+// packages\nextjs\components\ScaffoldEthAppWithProviders.tsx
 "use client";
 
 import { useEffect, useState } from "react";
