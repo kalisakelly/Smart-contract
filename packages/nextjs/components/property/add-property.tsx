@@ -12,6 +12,7 @@ import { Label } from "../ui/label"
 import { Switch } from "../ui/switch"
 import { X} from 'lucide-react'
 import { ImageUpload } from './ImageUpload'
+import toast from 'react-hot-toast'
 
 enum PropertyType {
   House = 'House',
@@ -67,29 +68,28 @@ export default function AddProperty() {
   }, [handleImageUpload])
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+  
     // Basic validation
     if (Object.entries(property).some(([key, value]) => key !== 'images' && value === '')) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      })
-      return
+      toast.error("Please fill in all fields");
+      return;
     }
     if (property.images.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please upload at least one image",
-        variant: "destructive",
-      })
-      return
+      toast.error("Please upload at least one image");
+      return;
     }
-    // Here you would typically send the data to your backend
-    console.log('Property data:', property)
-    // Navigate to KYC/verification page
-    // router.push('/kyc-verification')
-  }
+  
+    // Log submitted property data to the console
+    console.log("Submitted Property Data:", property);
+  
+    // For now, just log and display a success message.
+    toast.success("Property data submitted successfully!");
+  
+    // Uncomment the router navigation line to navigate to KYC verification if desired:
+    // router.push('/kyc-verification');
+  };
+  
 
   return (
     <div className="max-w-8xl mx-auto p-6 space-y-8">
@@ -188,10 +188,10 @@ export default function AddProperty() {
         <ImageUpload images={property.images} onUpload={handleImageUpload} onDelete={handleImageDelete} />
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {property.images.map((image, index) => (
+            {property.images.map((url, index) => (
               <div key={index} className="relative group">
                 <img
-                  src={URL.createObjectURL(image)}
+                  src={url}
                   alt={`Property image ${index + 1}`}
                   className="w-full h-40 object-cover rounded-lg"
                 />
