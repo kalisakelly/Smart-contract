@@ -1,3 +1,4 @@
+// packages\nextjs\components\Header.tsx
 "use client";
 
 import React, { useCallback, useRef, useState } from "react";
@@ -20,11 +21,7 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
 
-  {
-    label: "Debug Contracts",
-    href: "/debug",
-    icon: <BugAntIcon className="h-4 w-4" />,
-  },
+
 ];
 
 export const HeaderMenuLinks = () => {
